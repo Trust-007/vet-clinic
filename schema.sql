@@ -10,4 +10,32 @@ CREATE TABLE animals(
     PRIMARY KEY(id)
  );
 
-ALTER TABLE animals ADD COLUMN species VARCHAR(50);
+ALTER TABLE animals 
+ADD COLUMN species VARCHAR(50);
+
+ CREATE TABLE owners (
+    id SERIAL PRIMARY KEY, 
+    full_name VARCHAR, 
+    age INT
+);
+
+
+ALTER TABLE animals 
+DROP COLUMN id;
+ALTER TABLE animals 
+ADD COLUMN id SERIAL PRIMARY KEY;
+ALTER TABLE animals 
+DROP COLUMN species;
+
+ALTER TABLE animals 
+ADD COLUMN species_id INT; 
+ALTER TABLE animals 
+ADD CONSTRAINT fk_species_id 
+FOREIGN KEY(species_id) 
+REFERENCES species(id) 
+ON DELETE CASCADE;
+
+ALTER TABLE animals 
+ADD COLUMN owners_id INT;
+
+ALTER TABLE animals ADD CONSTRAINT fk_owners_id FOREIGN KEY(owners_id) REFERENCES owners(id) ON DELETE CASCADE;
