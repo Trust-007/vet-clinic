@@ -19,6 +19,10 @@ ADD COLUMN species VARCHAR(50);
     age INT
 );
 
+ CREATE TABLE species (
+    id SERIAL PRIMARY KEY, 
+    name VARCHAR
+);
 
 ALTER TABLE animals 
 DROP COLUMN id;
