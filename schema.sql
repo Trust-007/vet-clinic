@@ -43,3 +43,31 @@ ALTER TABLE animals
 ADD COLUMN owners_id INT;
 
 ALTER TABLE animals ADD CONSTRAINT fk_owners_id FOREIGN KEY(owners_id) REFERENCES owners(id) ON DELETE CASCADE;
+
+
+-- Vet clinic database: add "join table" for visits
+
+CREATE TABLE vets (
+    id SERIAL PRIMARY KEY, 
+    name VARCHAR(255), 
+    age INT, 
+    date_of_graduation DATE
+);
+
+
+CREATE TABLE specializations (
+    vet_id INT NOT NULL REFERENCES vets(id),
+    species_id INT NOT NULL REFERENCES species(id),
+    PRIMARY KEY(vet_id,species_id)
+);
+
+
+CREATE TABLE visits (
+  animal_id INT NOT NULL,
+  vet_id INT NOT NULL,
+  visit_dates Date NOT NULL,
+  CONSTRAINT primary_pk
+  PRIMARY KEY (animal_id, vet_id, visit_dates),
+  FOREIGN KEY (animal_id) REFERENCES animals (id),
+  FOREIGN KEY (vet_id) REFERENCES vets (id)
+);
