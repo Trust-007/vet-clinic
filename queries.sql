@@ -52,5 +52,36 @@ GROUP BY species;
 
 SELECT species, AVG(escape_attempts) 
 FROM animals
- WHERE date_of_birth BETWEEN DATE '1990-01-01' AND DATE '2000-12-31' 
- GROUP BY species;
+WHERE date_of_birth BETWEEN DATE '1990-01-01' AND DATE '2000-12-31' 
+GROUP BY species;
+
+SELECT owners_id, name, owners.id, full_name 
+FROM animals 
+JOIN owners ON owners_id = owners.id 
+WHERE owners.full_name LIKE '%Pond';
+
+SELECT owners_id, name, owners.id, full_name 
+FROM animals 
+RIGHT JOIN owners ON owners_id = owners.id ;
+
+SELECT species_id, animals.name, species.id, species.name 
+FROM animals JOIN species ON species_id = species.id;
+
+SELECT owners_id, animals.name, owners.id, full_name 
+FROM animals JOIN owners ON owners_id = owners.id 
+WHERE owners.full_name LIKE '%Orwell' AND species_id = 2;
+
+SELECT owners_id, name, owners.id, full_name 
+FROM animals JOIN owners ON owners_id = owners.id
+ WHERE owners.full_name LIKE '%Dean' AND escape_attempts = 0;
+
+SELECT owner 
+FROM (SELECT COUNT(animals.name) as count, full_name as owner 
+FROM animals 
+JOIN owners ON owners_id = owners.id 
+GROUP BY owner) AS animals_per_owner 
+WHERE count = (SELECT MAX(count) 
+FROM (SELECT COUNT(animals.name) as count, full_name as owner 
+FROM animals 
+JOIN owners ON owners_id = owners.id GROUP BY owner) AS animals_per_owner);
+
